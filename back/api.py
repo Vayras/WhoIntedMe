@@ -1,13 +1,13 @@
 # api.py
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, abort
 from .database import db
-
 from .models import User
 
-api = Blueprint('api', __name__)
+api = Blueprint("api", __name__)
 
-@api.route('/user', methods=['POST'])
+
+@api.route("/user", methods=["POST"])
 def add_user():
     """
     Add a new user
@@ -32,22 +32,27 @@ def add_user():
         description: User created successfully
     """
     data = request.get_json()
-    
+
     # Check if email already exists
-    existing_user = User.query.filter_by(email=data['email']).first()
+    existing_user = User.query.filter_by(email=data["email"]).first()
     if existing_user:
         return jsonify({"message": "User already exists!"}), 400
 
-    new_user = User(email=data['email'], password=data['password'], first_name=data['first_name'])
+    new_user = User(
+        email=data["email"], password=data["password"], first_name=data["first_name"]
+    )
     db.session.add(new_user)
     db.session.commit()
-    
-    return jsonify({"message": "User created successfully!", "user_id": new_user.id}), 201
+
+    return (
+        jsonify({"message": "User created successfully!", "user_id": new_user.id}),
+        201,
+    )
 
 
-@api.route('/user/<int:user_id>/lol-username', methods=['POST'])
+@api.route("/user/<int:user_id>/lol-username", methods=["POST"])
 def add_lol_username(user_id):
-    """ 
+    """
     Add or update a LoL username for a specified user.
     ---
     tags:
@@ -73,16 +78,16 @@ def add_lol_username(user_id):
     if not user:
         abort(404, description="User not found")
     data = request.get_json()
-    if 'lol_username' not in data:
+    if "lol_username" not in data:
         abort(400, description="lol_username not provided")
-    user.lol_username = data['lol_username']
+    user.lol_username = data["lol_username"]
     db.session.commit()
     return jsonify({"message": "LoL username added successfully"})
 
 
-@api.route('/user/<int:user_id>/lol-username', methods=['PUT'])
+@api.route("/user/<int:user_id>/lol-username", methods=["PUT"])
 def update_lol_username(user_id):
-    """ 
+    """
     Update the LoL username for a specified user.
     ---
     tags:
@@ -108,14 +113,14 @@ def update_lol_username(user_id):
     if not user:
         abort(404, description="User not found")
     data = request.get_json()
-    user.lol_username = data['lol_username']
+    user.lol_username = data["lol_username"]
     db.session.commit()
     return jsonify({"message": "LoL username updated successfully"})
 
 
-@api.route('/user/<int:user_id>', methods=['DELETE'])
+@api.route("/user/<int:user_id>", methods=["DELETE"])
 def delete_user(user_id):
-    """ 
+    """
     Remove a specified user.
     ---
     tags:
@@ -140,9 +145,9 @@ def delete_user(user_id):
     return jsonify({"message": "User deleted successfully"})
 
 
-@api.route('/user/<int:user_id>/match-history', methods=['GET'])
+@api.route("/user/<int:user_id>/match-history", methods=["GET"])
 def get_match_history(user_id):
-    """ 
+    """
     Retrieve the match history for a specified user.
     ---
     tags:
