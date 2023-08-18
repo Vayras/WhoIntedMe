@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "whointedme"
+version = "0.1.0"
+description = "An App that uncovers skill issues"
+authors = ["Robin (TeachMeTheWays) <robin@robinttw.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.11.4"
+flask = "^2.3.2"
+flask-login = "^0.6.2"
+flask-sqlalchemy = "^3.0.5"
+flasgger = "^0.9.7.1"
+pytest = "^7.4.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
