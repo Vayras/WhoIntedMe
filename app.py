@@ -1,4 +1,4 @@
-from front import create_app
+from back import create_app
 
 app = create_app()
 

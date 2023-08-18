@@ -28,7 +28,7 @@ def add_user():
         required: true
         description: The first name of the user.
     responses:
-      200:
+      201:
         description: User created successfully
     """
     data = request.get_json()
@@ -69,7 +69,7 @@ def add_lol_username(user_id):
       400:
         description: Invalid input or user not found
     """
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         abort(404, description="User not found")
     data = request.get_json()
@@ -104,7 +104,7 @@ def update_lol_username(user_id):
       404:
         description: User not found
     """
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         abort(404, description="User not found")
     data = request.get_json()
@@ -132,7 +132,7 @@ def delete_user(user_id):
       404:
         description: User not found
     """
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         abort(404, description="User not found")
     db.session.delete(user)
@@ -159,7 +159,7 @@ def get_match_history(user_id):
       404:
         description: User not found
     """
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         abort(404, description="User not found")
     # Placeholder match history, replace with actual retrieval logic

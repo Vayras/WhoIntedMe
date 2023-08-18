@@ -10,7 +10,7 @@ from .database import db
 DB_NAME = "database.db"
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, template_folder='../front/templates', static_folder='../front/static')
     swagger = Swagger(app, template={
         "swagger": "2.0",
         "info": {
