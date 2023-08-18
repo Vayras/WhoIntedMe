@@ -12,6 +12,6 @@ class User(db.Model, UserMixin):
 
 class Match(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    match_data = db.Column(db.Text)  # A placeholder, you can replace this with actual fields you need.
+    match_data = db.Column(db.Text)  # A placeholder, you can replace this with actual fields.
     analysis = db.Column(db.Text)  # Placeholder for analysis data.
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
